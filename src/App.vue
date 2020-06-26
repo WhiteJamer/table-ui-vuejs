@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <h1 class="app-label">Table UI</h1>
+      <TopBar />
+      <Table />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Table from "./components/Table.vue";
+import TopBar from "./components/TopBar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    Table,
+    TopBar
   }
-}
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap");
+@import "/scss/colors";
+@media (max-width: 1208px) {
+  .app-label{
+    text-align: center;
+  }
+  .container{
+    width: 100%;
+  }
+}
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  color: $black;
+}
+
+h1 {
+  font-size: 37px;
+}
+
+.app-label {
+  color: $blueDark1;
+  margin-top: 32px;
+}
+
+.container{
+  width: 1200px;
+  margin: 0 auto;
 }
 </style>
