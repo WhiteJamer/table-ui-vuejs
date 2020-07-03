@@ -8,7 +8,10 @@
               <input type="checkbox" name="row1" id="row1" values="yes" class="input-checkbox" />
               <label for="row1"></label>
             </th>
-            <th class="active">
+            <th
+              :class="{active: isPrimaryColumn('product')}"
+              v-on:click.prevent="setPrimaryColumn('product')"
+            >
               Product(100g serving)
               <svg
                 class="arrow-up"
@@ -26,17 +29,32 @@
                 />
               </svg>
             </th>
-            <th>Calories</th>
-            <th>Fat (g)</th>
-            <th>Carbs (g)</th>
-            <th>Protein (g)</th>
-            <th>Iron (%)</th>
+            <th
+              :class="{active: isPrimaryColumn('calories')}"
+              v-on:click.prevent="setPrimaryColumn('calories')"
+            >Calories</th>
+            <th
+              :class="{active: isPrimaryColumn('fat')}"
+              v-on:click.prevent="setPrimaryColumn('fat')"
+            >Fat (g)</th>
+            <th
+              :class="{active: isPrimaryColumn('carbs')}"
+              v-on:click.prevent="setPrimaryColumn('carbs')"
+            >Carbs (g)</th>
+            <th
+              :class="{active: isPrimaryColumn('protein')}"
+              v-on:click.prevent="setPrimaryColumn('protein')"
+            >Protein (g)</th>
+            <th
+              :class="{active: isPrimaryColumn('iron')}"
+              v-on:click.prevent="setPrimaryColumn('iron')"
+            >Iron (%)</th>
           </tr>
         </thead>
 
         <div class="align-center-wrapper" v-if="isLoading || isError">
           <div class="loading-box" v-if="isLoading">
-            <img src="/loading.gif" alt="loading">
+            <img src="/loading.gif" alt="loading" />
           </div>
           <div class="err-box" v-if="isError">
             <strong>Ошибка: {{error.error}}</strong>
@@ -45,7 +63,7 @@
         </div>
 
         <tbody>
-          <tr v-for="product in allProducts" :key="product.id">
+          <tr v-for="product in filteredProducts" :key="product.id">
             <td>
               <input type="checkbox" name="row2" id="row2" values="yes" class="input-checkbox" />
               <label for="row2"></label>
@@ -64,14 +82,24 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   name: "Table",
   computed: {
-    ...mapGetters(["allProducts", "isLoading", "isError", "error"])
+    ...mapGetters([
+      "filteredProducts",
+      "isLoading",
+      "isError",
+      "error",
+      "primaryColumn"
+    ])
   },
   methods: {
-    ...mapActions(["fetchProducts"])
+    ...mapActions(["fetchProducts"]),
+    ...mapMutations(["setPrimaryColumn"]),
+    isPrimaryColumn(value) {
+      return this.primaryColumn === value;
+    }
   },
   async mounted() {
     this.fetchProducts();
@@ -100,6 +128,7 @@ export default {
     }
     th {
       font-weight: 600;
+      cursor: pointer;
       svg {
         vertical-align: middle;
         margin-left: 7px;
@@ -155,11 +184,11 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  .err-box, .loading-box {
+  .err-box,
+  .loading-box {
     display: flex;
     flex-direction: column;
     text-align: center;
   }
-  
 }
 </style>

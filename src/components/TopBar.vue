@@ -2,12 +2,42 @@
   <div class="top-bar">
     <div class="sort-by">
       <span class="sort-by__label">Sorting by:</span>
-      <a href="/" class="sort-by__item active">Product (100g serving)</a>
-      <a href="/" class="sort-by__item">Calories</a>
-      <a href="/" class="sort-by__item">Fat (g)</a>
-      <a href="/" class="sort-by__item">Carbs (g)</a>
-      <a href="/" class="sort-by__item">Protein (g)</a>
-      <a href="/" class="sort-by__item">Iron (%)</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('product') }"
+        v-on:click.prevent="setSortBy('product')"
+      >Product (100g serving)</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('calories') }"
+        v-on:click.prevent="setSortBy('calories')"
+      >Calories</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('fat') }"
+        v-on:click.prevent="setSortBy('fat')"
+      >Fat (g)</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('carbs') }"
+        v-on:click.prevent="setSortBy('carbs')"
+      >Carbs (g)</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('protein') }"
+        v-on:click.prevent="setSortBy('protein')"
+      >Protein (g)</a>
+      <a
+        href="/"
+        class="sort-by__item"
+        :class="{ active: isSortBy('iron') }"
+        v-on:click.prevent="setSortBy('iron')"
+      >Iron (%)</a>
     </div>
     <div class="other">
       <div class="options">
@@ -89,8 +119,16 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
-  name: "TopBar"
+  name: "TopBar",
+  computed: { ...mapGetters(["sortBy"]) },
+  methods: {
+    ...mapMutations(["setSortBy"]),
+    isSortBy(value) {
+      return this.sortBy === value;
+    }
+  }
 };
 </script>
 
@@ -105,7 +143,7 @@ export default {
       justify-content: center;
     }
     .other {
-        margin-top: 10px;
+      margin-top: 10px;
       width: 100%;
       justify-content: center;
     }
