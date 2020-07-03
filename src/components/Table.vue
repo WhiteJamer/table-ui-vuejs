@@ -33,66 +33,29 @@
             <th>Iron (%)</th>
           </tr>
         </thead>
+
+        <div class="align-center-wrapper" v-if="isLoading || isError">
+          <div class="loading-box" v-if="isLoading">
+            <img src="/loading.gif" alt="loading">
+          </div>
+          <div class="err-box" v-if="isError">
+            <strong>Ошибка: {{error.error}}</strong>
+            <a class="link" href="/" v-on:click.prevent="fetchProducts">Попробовать снова</a>
+          </div>
+        </div>
+
         <tbody>
-          <tr>
+          <tr v-for="product in allProducts" :key="product.id">
             <td>
               <input type="checkbox" name="row2" id="row2" values="yes" class="input-checkbox" />
               <label for="row2"></label>
             </td>
-            <td>Frozen Yogurt</td>
-            <td>557</td>
-            <td>546</td>
-            <td>123</td>
-            <td>4323</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="row3" id="row3" values="yes" class="input-checkbox" />
-              <label for="row3"></label>
-            </td>
-            <td>Frozen Yogurt</td>
-            <td>557</td>
-            <td>546</td>
-            <td>123</td>
-            <td>4323</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="row4" id="row4" values="yes" class="input-checkbox" />
-              <label for="row4"></label>
-            </td>
-            <td>Frozen Yogurt</td>
-            <td>557</td>
-            <td>546</td>
-            <td>123</td>
-            <td>4323</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="row5" id="row5" values="yes" class="input-checkbox" />
-              <label for="row5"></label>
-            </td>
-            <td>Frozen Yogurt</td>
-            <td>557</td>
-            <td>546</td>
-            <td>123</td>
-            <td>4323</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="row6" id="row6" values="yes" class="input-checkbox" />
-              <label for="row6"></label>
-            </td>
-            <td>Frozen Yogurt</td>
-            <td>557</td>
-            <td>546</td>
-            <td>123</td>
-            <td>4323</td>
-            <td>12</td>
+            <td>{{product.product}}</td>
+            <td>{{product.calories}}</td>
+            <td>{{product.fat}}</td>
+            <td>{{product.carbs}}</td>
+            <td>{{product.protein}}</td>
+            <td>{{product.iron}}</td>
           </tr>
         </tbody>
       </table>
@@ -101,8 +64,18 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Table",
+  computed: {
+    ...mapGetters(["allProducts", "isLoading", "isError", "error"])
+  },
+  methods: {
+    ...mapActions(["fetchProducts"])
+  },
+  async mounted() {
+    this.fetchProducts();
+  }
 };
 </script>
 
@@ -111,15 +84,16 @@ export default {
 @import "../scss/colors";
 .table-container {
   table {
-    tbody{
-      tr:hover{
+    tbody {
+      tr:hover {
         background: rgba(0, 161, 30, 0.07);
       }
     }
     width: 100%;
     text-align: start;
     border-radius: 4px;
-    th, td{
+    th,
+    td {
       padding: 1rem 2rem;
       vertical-align: middle;
       text-align: start;
@@ -134,7 +108,8 @@ export default {
         color: $active;
       }
     }
-    td {}
+    td {
+    }
   }
 }
 
@@ -169,5 +144,22 @@ export default {
   border-color: $active;
   background-color: $active;
   background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.56354 2.61235L0.666992 3.41618L3.54877 5.99991L9.33366 0.803736L8.43711 -9.15527e-05L3.54877 4.39225L1.56354 2.61235Z' fill='%23fff'/%3E%3C/svg%3E%0A");
+}
+
+.align-center-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  .err-box, .loading-box {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
 }
 </style>

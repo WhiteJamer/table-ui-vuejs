@@ -25,10 +25,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap");
 @import "/scss/colors";
 @media (max-width: 1208px) {
-  .app-label{
+  .app-label {
     text-align: center;
   }
-  .container{
+  .container {
     width: 100%;
   }
 }
@@ -48,8 +48,17 @@ h1 {
   margin-top: 32px;
 }
 
-.container{
+.container {
   width: 1200px;
   margin: 0 auto;
+}
+
+.link {
+  color: $active;
+  text-decoration: none;
+  &:hover {
+    color: $active;
+    text-decoration: none;
+  }
 }
 </style>
