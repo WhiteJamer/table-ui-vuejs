@@ -8,7 +8,10 @@
               <input type="checkbox" name="row1" id="row1" values="yes" class="input-checkbox" />
               <label for="row1"></label>
             </th>
+
+            <!-- Primary column -->
             <th
+              v-if="isPrimaryColumn('product')"
               :class="{active: isPrimaryColumn('product')}"
               v-on:click.prevent="setPrimaryColumn('product')"
             >
@@ -30,22 +33,146 @@
               </svg>
             </th>
             <th
+              v-else-if="isPrimaryColumn('calories')"
+              :class="{active: isPrimaryColumn('calories')}"
+              v-on:click.prevent="setPrimaryColumn('calories')"
+            >
+              Calories
+              <svg
+                class="arrow-up"
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+                  fill="#333333"
+                />
+              </svg>
+            </th>
+            <th
+              v-else-if="isPrimaryColumn('fat')"
+              :class="{active: isPrimaryColumn('fat')}"
+              v-on:click.prevent="setPrimaryColumn('fat')"
+            >
+              Fat (g)
+              <svg
+                class="arrow-up"
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+                  fill="#333333"
+                />
+              </svg>
+            </th>
+            <th
+              v-else-if="isPrimaryColumn('carbs')"
+              :class="{active: isPrimaryColumn('carbs')}"
+              v-on:click.prevent="setPrimaryColumn('carbs')"
+            >
+              Carbs (g)
+              <svg
+                class="arrow-up"
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+                  fill="#333333"
+                />
+              </svg>
+            </th>
+            <th
+              v-else-if="isPrimaryColumn('protein')"
+              :class="{active: isPrimaryColumn('protein')}"
+              v-on:click.prevent="setPrimaryColumn('protein')"
+            >
+              Protein (g)
+              <svg
+                class="arrow-up"
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+                  fill="#333333"
+                />
+              </svg>
+            </th>
+            <th
+              v-else-if="isPrimaryColumn('iron')"
+              :class="{active: isPrimaryColumn('iron')}"
+              v-on:click.prevent="setPrimaryColumn('iron')"
+            >
+              Iron (%)
+              <svg
+                class="arrow-up"
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+                  fill="#333333"
+                />
+              </svg>
+            </th>
+            <!-- END Primary Column -->
+
+            <th
+              v-if="!isPrimaryColumn('product')"
+              :class="{active: isPrimaryColumn('product')}"
+              v-on:click.prevent="setPrimaryColumn('product')"
+            >
+              Product(100g serving)
+            </th>
+            <th
+              v-if="!isPrimaryColumn('calories')"
               :class="{active: isPrimaryColumn('calories')}"
               v-on:click.prevent="setPrimaryColumn('calories')"
             >Calories</th>
             <th
+              v-if="!isPrimaryColumn('fat')"
               :class="{active: isPrimaryColumn('fat')}"
               v-on:click.prevent="setPrimaryColumn('fat')"
             >Fat (g)</th>
             <th
+              v-if="!isPrimaryColumn('carbs')"
               :class="{active: isPrimaryColumn('carbs')}"
               v-on:click.prevent="setPrimaryColumn('carbs')"
             >Carbs (g)</th>
             <th
+              v-if="!isPrimaryColumn('protein')"
               :class="{active: isPrimaryColumn('protein')}"
               v-on:click.prevent="setPrimaryColumn('protein')"
             >Protein (g)</th>
             <th
+              v-if="!isPrimaryColumn('iron')"
               :class="{active: isPrimaryColumn('iron')}"
               v-on:click.prevent="setPrimaryColumn('iron')"
             >Iron (%)</th>
@@ -68,12 +195,22 @@
               <input type="checkbox" name="row2" id="row2" values="yes" class="input-checkbox" />
               <label for="row2"></label>
             </td>
-            <td>{{product.product}}</td>
-            <td>{{product.calories}}</td>
-            <td>{{product.fat}}</td>
-            <td>{{product.carbs}}</td>
-            <td>{{product.protein}}</td>
-            <td>{{product.iron}}</td>
+
+            <!-- Primary column -->
+            <td v-if="isPrimaryColumn('product')">{{product.product}}</td>
+            <td v-else-if="isPrimaryColumn('calories')">{{product.calories}}</td>
+            <td v-else-if="isPrimaryColumn('fat')">{{product.fat}}</td>
+            <td v-else-if="isPrimaryColumn('carbs')">{{product.carbs}}</td>
+            <td v-else-if="isPrimaryColumn('protein')">{{product.protein}}</td>
+            <td v-else-if="isPrimaryColumn('iron')">{{product.iron}}</td>
+            <!-- END Primary Column -->
+
+            <td v-if="!isPrimaryColumn('product')">{{product.product}}</td>
+            <td v-if="!isPrimaryColumn('calories')">{{product.calories}}</td>
+            <td v-if="!isPrimaryColumn('fat')">{{product.fat}}</td>
+            <td v-if="!isPrimaryColumn('carbs')">{{product.carbs}}</td>
+            <td v-if="!isPrimaryColumn('protein')">{{product.protein}}</td>
+            <td v-if="!isPrimaryColumn('iron')">{{product.iron}}</td>
           </tr>
         </tbody>
       </table>
