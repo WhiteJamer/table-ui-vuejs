@@ -1,0 +1,44 @@
+<template>
+  <!-- Сделать функционал если props.sortType = DESC то стрелка вверх, если нет, то вниз(смена классов(arrow-up/ arrow-down) transform: rotate(??90))  -->
+  <svg
+    class="arrow"
+    :class="{arrowDown: isSortTypeDESC}"
+    width="8"
+    height="12"
+    viewBox="0 0 8 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
+      fill="#333333"
+    />
+  </svg>
+</template>
+
+<script>
+// import { mapActions, mapGetters, mapMutations } from "vuex";
+export default {
+  name: "Table",
+  computed: {
+    isSortTypeDESC() {
+      return this.sortType == "desc";
+    }
+  },
+  methods: {},
+  props: ["sortType"]
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+@import "../scss/colors";
+.arrow {
+  transition: 0.2s all;
+  &.arrowDown {
+    transform: rotate(180deg);
+  }
+}
+</style>

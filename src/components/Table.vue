@@ -13,134 +13,50 @@
             <th
               v-if="isPrimaryColumn('product')"
               :class="{active: isPrimaryColumn('product')}"
-              v-on:click.prevent="setPrimaryColumn('product')"
+              v-on:click.prevent="switchSortType"
             >
               Product(100g serving)
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType"  />
             </th>
             <th
               v-else-if="isPrimaryColumn('calories')"
               :class="{active: isPrimaryColumn('calories')}"
-              v-on:click.prevent="setPrimaryColumn('calories')"
+              v-on:click.prevent="switchSortType"
             >
               Calories
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
               v-else-if="isPrimaryColumn('fat')"
               :class="{active: isPrimaryColumn('fat')}"
-              v-on:click.prevent="setPrimaryColumn('fat')"
+              v-on:click.prevent="switchSortType"
             >
               Fat (g)
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
               v-else-if="isPrimaryColumn('carbs')"
               :class="{active: isPrimaryColumn('carbs')}"
-              v-on:click.prevent="setPrimaryColumn('carbs')"
+              v-on:click.prevent="switchSortType"
             >
               Carbs (g)
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
               v-else-if="isPrimaryColumn('protein')"
               :class="{active: isPrimaryColumn('protein')}"
-              v-on:click.prevent="setPrimaryColumn('protein')"
+              v-on:click.prevent="switchSortType"
             >
               Protein (g)
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
               v-else-if="isPrimaryColumn('iron')"
               :class="{active: isPrimaryColumn('iron')}"
-              v-on:click.prevent="setPrimaryColumn('iron')"
+              v-on:click.prevent="switchSortType"
             >
               Iron (%)
-              <svg
-                class="arrow-up"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.34375 12V2.5625L0.9375 4.9375L0 4L4 0L8 4L7.0625 4.9375L4.65625 2.5625V12H3.34375Z"
-                  fill="#333333"
-                />
-              </svg>
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <!-- END Primary Column -->
 
@@ -220,6 +136,8 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import SortDirectionArrow from './SortDirectionArrow';
+
 export default {
   name: "Table",
   computed: {
@@ -228,19 +146,24 @@ export default {
       "isLoading",
       "isError",
       "error",
-      "primaryColumn"
+      "primaryColumn",
+      "sortType"
     ])
   },
   methods: {
     ...mapActions(["fetchProducts"]),
-    ...mapMutations(["setPrimaryColumn"]),
+    ...mapMutations(["setPrimaryColumn", "switchSortType"]),
     isPrimaryColumn(value) {
       return this.primaryColumn === value;
-    }
+    },
+
   },
   async mounted() {
     this.fetchProducts();
-  }
+  },
+  components: {
+    'SortDirectionArrow': SortDirectionArrow
+  },
 };
 </script>
 

@@ -5,6 +5,7 @@ export default {
     state: {
         products: [],
         sortBy: 'DEFAULT',
+        sortType: 'desc',
         isLoading: false,
         error: null,
         primaryColumn: 'product'
@@ -12,12 +13,12 @@ export default {
     getters: {
         filteredProducts: (state) => {
             switch (state.sortBy) {
-                case "product": return _.sortBy(state.products, 'product')
-                case "calories": return _.sortBy(state.products, 'calories')
-                case "fat": return _.sortBy(state.products, 'fat')
-                case "carbs": return _.sortBy(state.products, 'carbs')
-                case "protein": return _.sortBy(state.products, 'protein')
-                case "iron": return _.sortBy(state.products, 'iron')
+                case "product": return _.orderBy(state.products, ['product'], [state.sortType])
+                case "calories": return _.orderBy(state.products, ['calories'], [state.sortType])
+                case "fat": return _.orderBy(state.products, ['fat'], [state.sortType])
+                case "carbs": return _.orderBy(state.products, ['carbs'], [state.sortType])
+                case "protein": return _.orderBy(state.products, ['protein'], [state.sortType])
+                case "iron": return _.orderBy(state.products, ['iron'], [state.sortType])
                 default: return state.products
             }
         },
@@ -36,9 +37,14 @@ export default {
         sortBy: (state) => {
             return state.sortBy
         },
+        sortType: (state) => {
+            return state.sortType
+        },
+
         primaryColumn: (state) => {
             return state.primaryColumn
-        }
+        },
+
     },
     mutations: {
         updateProducts(state, payload) {
@@ -59,10 +65,19 @@ export default {
         setSortBy(state, payload) {
             state.sortBy = payload
         },
+        switchSortType(state) {
+            if (state.sortType === 'desc') {
+                state.sortType = 'asc'
+            }
+            else {
+                state.sortType = 'desc'
+            }
+        },
 
         setPrimaryColumn(state, payload) {
             state.primaryColumn = payload
-        }
+        },
+
 
     },
     actions: {
