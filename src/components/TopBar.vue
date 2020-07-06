@@ -42,59 +42,9 @@
     <div class="other">
       <div class="options">
         <a href="/" class="delete-count">Delete (3)</a>
-        <a href="/" class="per-page-switcher">
-          10 Per Page
-          <svg
-            width="8"
-            height="5"
-            viewBox="0 0 8 5"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M7.0625 0L8 0.9375L4 4.9375L0 0.9375L0.9375 0L4 3.0625L7.0625 0Z"
-              fill="#5B5E77"
-            />
-          </svg>
-        </a>
+        <PerPageSelect />
       </div>
-      <div class="paginator">
-        <a href="/" class="left-arrow arrow disable">
-          <svg
-            width="5"
-            height="8"
-            viewBox="0 0 5 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M4 0L0 4L4 8L4.9375 7.0625L1.875 4L4.9375 0.9375L4 0Z"
-              fill="#333333"
-            />
-          </svg>
-        </a>
-        <span class="page-step">1-10 of 25</span>
-        <a href="/" class="right-arrow arrow">
-          <svg
-            width="5"
-            height="8"
-            viewBox="0 0 5 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M0.9375 0L4.9375 4L0.9375 8L0 7.0625L3.0625 4L0 0.9375L0.9375 0Z"
-              fill="#5B5E77"
-            />
-          </svg>
-        </a>
-      </div>
+      <Paginator />
       <div class="colums-selected">
         6 columns selected
         <a href="/">
@@ -120,6 +70,8 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import Paginator from "./Paginator";
+import PerPageSelect from "./PerPageSelect";
 export default {
   name: "TopBar",
   computed: { ...mapGetters(["sortBy"]) },
@@ -128,6 +80,10 @@ export default {
     isSortBy(value) {
       return this.sortBy === value;
     }
+  },
+  components: {
+    Paginator: Paginator,
+    PerPageSelect: PerPageSelect
   }
 };
 </script>
@@ -187,41 +143,6 @@ export default {
       padding: 0.5rem 1rem;
       text-decoration: none;
       text-align: center;
-    }
-    .per-page-switcher {
-      color: $blueDark2;
-      border: 1px solid $grey1;
-      border-radius: 2px;
-      margin-left: 12px;
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      text-align: center;
-      svg {
-        margin-left: 7px;
-        vertical-align: middle;
-      }
-    }
-  }
-  .paginator {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 16px;
-    align-items: center;
-    .arrow {
-      padding: 0.5rem 1rem;
-      border: 1px solid $grey1;
-      border-radius: 2px;
-      svg {
-        vertical-align: middle;
-      }
-      &.disable {
-        opacity: 0.3;
-      }
-    }
-    .page-step {
-      color: $blueDark1;
-      font-weight: 600;
-      margin: 0 8px;
     }
   }
   .colums-selected {

@@ -1,5 +1,4 @@
 <template>
-  <!-- Сделать функционал если props.sortType = DESC то стрелка вверх, если нет, то вниз(смена классов(arrow-up/ arrow-down) transform: rotate(??90))  -->
   <svg
     class="arrow"
     :class="{arrowDown: isSortTypeDESC}"
@@ -19,9 +18,8 @@
 </template>
 
 <script>
-// import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
-  name: "Table",
+  name: "SortDirectionArrow",
   computed: {
     isSortTypeDESC() {
       return this.sortType == "desc";

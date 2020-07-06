@@ -1,11 +1,18 @@
 import { getProducts } from '../../api/request'
 import _ from 'lodash';
 
+const paginate = (data, pageNumber, pageLimit) => {
+    const start = pageNumber * pageLimit
+    const end = start + pageLimit
+    return data.slice(start, end)
+}
 export default {
     state: {
         products: [],
         sortBy: 'DEFAULT',
         sortType: 'desc',
+        pageNumber: 0,
+        pageLimit: 10,
         isLoading: false,
         error: null,
         primaryColumn: 'product'
@@ -19,8 +26,11 @@ export default {
                 case "carbs": return _.orderBy(state.products, ['carbs'], [state.sortType])
                 case "protein": return _.orderBy(state.products, ['protein'], [state.sortType])
                 case "iron": return _.orderBy(state.products, ['iron'], [state.sortType])
-                default: return state.products
+                default: return paginate(state.products, state.pageNumber, state.pageLimit)
             }
+        },
+        productsCount: (state) => {
+            return state.products.length
         },
 
         isLoading: (state) => {
@@ -44,6 +54,23 @@ export default {
         primaryColumn: (state) => {
             return state.primaryColumn
         },
+
+        pageNumber: (state) => {
+            return state.pageNumber
+        },
+        allPages: (state) => {
+            const dataLength = state.products.length
+            return Math.ceil(dataLength / state.pageLimit)
+        },
+        pageLimit: (state) => {
+            return state.pageLimit
+        },
+        pageStepFrom: (state) => {
+            return (((state.pageNumber * state.pageLimit)-state.pageLimit)+state.pageLimit)
+        },
+        pageStepTo: (state, getters) => {
+            return getters.productsCount
+        }
 
     },
     mutations: {
@@ -78,6 +105,21 @@ export default {
             state.primaryColumn = payload
         },
 
+        prevPage(state) {
+            state.pageNumber--
+        },
+        nextPage(state) {
+            state.pageNumber++
+        },
+
+        selectPage(state, payload){
+            state.pageNumber = payload
+        },
+
+        switchPerPage(state, payload){
+            state.pageLimit = payload 
+        }
+
 
     },
     actions: {
@@ -90,7 +132,21 @@ export default {
                 context.commit("setError", err)
             })
             context.commit('setLoading', false)
+        },
+
+        prevPage(ctx) {
+            if (ctx.state.pageNumber > 0) {
+                ctx.commit('prevPage')
+            }
+        },
+        nextPage(ctx) {
+            if (ctx.state.pageNumber < ctx.getters.allPages-1) {
+                ctx.commit('nextPage')
+            }
+        },
+        switchPerPage(ctx, payload){
+            ctx.commit("selectPage", 0) // возвращаем к нулевой странице
+            ctx.commit("switchPerPage", payload)
         }
-    },
-    modules: {}
+    }
 }
