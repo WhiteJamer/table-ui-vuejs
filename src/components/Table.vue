@@ -4,9 +4,18 @@
       <table class="table">
         <thead>
           <tr>
+            <!-- {{selectedIds}} -->
             <th>
-              <input type="checkbox" name="row1" id="row1" values="yes" class="input-checkbox" />
-              <label for="row1"></label>
+              <!-- обработать handleCheckboxAll() -->
+              <input
+                @change="handleCheckboxAll()"
+                type="checkbox"
+                name="checkbox_product-all"
+                id="checkbox_product-all"
+                v-model="isSelectedIdsAll"
+                class="input-checkbox"
+              />
+              <label for="checkbox_product-all"></label>
             </th>
 
             <!-- Primary column -->
@@ -106,16 +115,28 @@
         <tbody>
           <tr v-for="product in filteredProducts" :key="product.id">
             <td>
-              <input type="checkbox" name="row2" id="row2" values="yes" class="input-checkbox" />
-              <label for="row2"></label>
+              <input
+                @change="handleChangeCheckboxRow"
+                type="checkbox"
+                :name=" 'product ' + product.id"
+                :id=" 'product ' + product.id"
+                :value="product.id"
+                class="input-checkbox"
+                v-model="checkboxSelectedIds"
+              />
+              <label :for=" 'product ' + product.id"></label>
             </td>
 
             <!-- Primary column -->
             <td v-if="isPrimaryColumn('product') && isIncludesColumn('product')">{{product.product}}</td>
-            <td v-else-if="isPrimaryColumn('calories') && isIncludesColumn('calories')">{{product.calories}}</td>
+            <td
+              v-else-if="isPrimaryColumn('calories') && isIncludesColumn('calories')"
+            >{{product.calories}}</td>
             <td v-else-if="isPrimaryColumn('fat') && isIncludesColumn('fat')">{{product.fat}}</td>
             <td v-else-if="isPrimaryColumn('carbs') && isIncludesColumn('carbs')">{{product.carbs}}</td>
-            <td v-else-if="isPrimaryColumn('protein') && isIncludesColumn('protein')">{{product.protein}}</td>
+            <td
+              v-else-if="isPrimaryColumn('protein') && isIncludesColumn('protein')"
+            >{{product.protein}}</td>
             <td v-else-if="isPrimaryColumn('iron') && isIncludesColumn('iron')">{{product.iron}}</td>
             <!-- END Primary Column -->
 
@@ -152,11 +173,19 @@ export default {
       "error",
       "primaryColumn",
       "selectedColumns",
-      "sortType"
+      "sortType",
+      "selectedIds",
+      "allProductsIds"
     ])
   },
+  data: function() {
+    return {
+      checkboxSelectedIds: [],
+      isSelectedIdsAll: false
+    };
+  },
   methods: {
-    ...mapActions(["fetchProducts"]),
+    ...mapActions(["fetchProducts", "changeSelectedIds"]),
     ...mapMutations(["setPrimaryColumn", "switchSortType"]),
 
     // проверка на то что данный тег указан в store.product.primaryColumn
@@ -166,14 +195,30 @@ export default {
 
     // проверка массива selectedColumns на наличие переданного тега колонки.
     isIncludesColumn(columnName) {
-      let value = false
+      let value = false;
       this.selectedColumns.map(item => {
-        if(item.tag === columnName){
-          console.log(item.tag, true);
-          value = true
+        if (item.tag === columnName) {
+          value = true;
         }
       });
-      return value
+      return value;
+    },
+    handleChangeCheckboxRow() {
+      this.isSelectedIdsAll = false; // делаем галочку для выбора всех продуктов uncheched
+      this.changeSelectedIds(this.checkboxSelectedIds);
+      if (this.selectedIds.length === this.allProductsIds.length) {
+        // если выбраны все продукты, то делаем галочку checked
+        this.isSelectedIdsAll = true;
+      }
+    },
+    handleCheckboxAll() {
+      if (this.isSelectedIdsAll) {
+        const ids = (this.checkboxSelectedIds = this.allProductsIds); // делаем чекбоксы на всех продуктах активными
+        this.changeSelectedIds(ids); // комитим в глобальный стор
+      } else {
+        const ids = (this.checkboxSelectedIds = []); // делаем чекбоксы на всех продуктах неактивными
+        this.changeSelectedIds(ids); // комитим в глобальный стор
+      }
     }
   },
   async mounted() {

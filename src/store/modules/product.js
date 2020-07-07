@@ -17,7 +17,8 @@ export default {
         error: null,
         primaryColumn: 'product',
         allColumns: [{ id: 1, tag: 'product', name: 'Product(100g serving)' }, { id: 2, tag: 'calories', name: 'Calories' }, { id: 3, tag: 'fat', name: 'Fat (g)' }, { id: 4, tag: 'carbs', name: 'Carbs (g)' }, { id: 5, tag: 'protein', name: 'Protein (g)' }, { id: 6, tag: 'iron', name: 'Iron (%)' }],
-        selectedColumns: [{ id: 1, tag: 'product', name: 'Product(100g serving)' }, { id: 2, tag: 'calories', name: 'Calories' }, { id: 3, tag: 'fat', name: 'Fat (g)' }, { id: 4, tag: 'carbs', name: 'Carbs (g)' }, { id: 5, tag: 'protein', name: 'Protein (g)' }, { id: 6, tag: 'iron', name: 'Iron (%)' }]
+        selectedColumns: [{ id: 1, tag: 'product', name: 'Product(100g serving)' }, { id: 2, tag: 'calories', name: 'Calories' }, { id: 3, tag: 'fat', name: 'Fat (g)' }, { id: 4, tag: 'carbs', name: 'Carbs (g)' }, { id: 5, tag: 'protein', name: 'Protein (g)' }, { id: 6, tag: 'iron', name: 'Iron (%)' }],
+        selectedIds: []
     },
     getters: {
         filteredProducts: (state) => {
@@ -33,6 +34,10 @@ export default {
         },
         productsCount: (state) => {
             return state.products.length
+        },
+        allProductsIds: (state) => {
+            const ids = state.products.map(item => item.id)
+            return ids
         },
 
         isLoading: (state) => {
@@ -83,6 +88,13 @@ export default {
             return getters.productsCount
         },
 
+        selectedIds: (state) => {
+            return state.selectedIds
+        },
+        selectedIdsCount: (state) => {
+            return state.selectedIds.length
+        }
+
     },
     mutations: {
         updateProducts(state, payload) {
@@ -132,6 +144,10 @@ export default {
 
         switchPerPage(state, payload) {
             state.pageLimit = payload
+        },
+
+        updateSelectedIds(state, payload){
+            state.selectedIds = payload
         }
 
 
@@ -165,6 +181,10 @@ export default {
 
         changeSelectedColumns(ctx, payload) {
             ctx.commit("updateSelectedColumns", payload)
+        },
+
+        changeSelectedIds(ctx, payload){
+            ctx.commit("updateSelectedIds", payload)
         }
     }
 }

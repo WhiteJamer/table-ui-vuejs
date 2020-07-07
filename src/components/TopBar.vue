@@ -41,7 +41,11 @@
     </div>
     <div class="other">
       <div class="options">
-        <a href="/" class="delete-count">Delete (3)</a>
+        <a
+          href="/"
+          class="delete-count"
+          :class="{active: selectedIdsCount > 0}"
+        >Delete ({{selectedIdsCount}})</a>
         <PerPageSelect />
       </div>
       <Paginator />
@@ -57,7 +61,7 @@ import PerPageSelect from "./PerPageSelect";
 import DisplayedColumnsSelect from "./DisplayedColumnsSelect";
 export default {
   name: "TopBar",
-  computed: { ...mapGetters(["sortBy"]) },
+  computed: { ...mapGetters(["sortBy", "selectedIdsCount"]) },
   methods: {
     ...mapMutations(["setSortBy"]),
     isSortBy(value) {
@@ -127,6 +131,9 @@ export default {
       padding: 0.5rem 1rem;
       text-decoration: none;
       text-align: center;
+      &.active{
+        opacity: 1;
+      }
     }
   }
   .colums-selected {
