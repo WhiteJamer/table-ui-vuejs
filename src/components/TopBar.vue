@@ -45,25 +45,7 @@
         <PerPageSelect />
       </div>
       <Paginator />
-      <div class="colums-selected">
-        6 columns selected
-        <a href="/">
-          <svg
-            width="8"
-            height="5"
-            viewBox="0 0 8 5"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M7.0625 0L8 0.9375L4 4.9375L0 0.9375L0.9375 0L4 3.0625L7.0625 0Z"
-              fill="#5B5E77"
-            />
-          </svg>
-        </a>
-      </div>
+      <DisplayedColumnsSelect />
     </div>
   </div>
 </template>
@@ -72,6 +54,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import Paginator from "./Paginator";
 import PerPageSelect from "./PerPageSelect";
+import DisplayedColumnsSelect from "./DisplayedColumnsSelect";
 export default {
   name: "TopBar",
   computed: { ...mapGetters(["sortBy"]) },
@@ -83,7 +66,8 @@ export default {
   },
   components: {
     Paginator: Paginator,
-    PerPageSelect: PerPageSelect
+    PerPageSelect: PerPageSelect,
+    DisplayedColumnsSelect: DisplayedColumnsSelect
   }
 };
 </script>

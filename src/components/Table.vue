@@ -11,15 +11,15 @@
 
             <!-- Primary column -->
             <th
-              v-if="isPrimaryColumn('product')"
+              v-if="isPrimaryColumn('product') && isIncludesColumn('product')"
               :class="{active: isPrimaryColumn('product')}"
               v-on:click.prevent="switchSortType"
             >
               Product(100g serving)
-              <SortDirectionArrow :sortType="sortType"  />
+              <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
-              v-else-if="isPrimaryColumn('calories')"
+              v-else-if="isPrimaryColumn('calories') && isIncludesColumn('calories')"
               :class="{active: isPrimaryColumn('calories')}"
               v-on:click.prevent="switchSortType"
             >
@@ -27,7 +27,7 @@
               <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
-              v-else-if="isPrimaryColumn('fat')"
+              v-else-if="isPrimaryColumn('fat') && isIncludesColumn('fat')"
               :class="{active: isPrimaryColumn('fat')}"
               v-on:click.prevent="switchSortType"
             >
@@ -35,7 +35,7 @@
               <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
-              v-else-if="isPrimaryColumn('carbs')"
+              v-else-if="isPrimaryColumn('carbs') && isIncludesColumn('carbs')"
               :class="{active: isPrimaryColumn('carbs')}"
               v-on:click.prevent="switchSortType"
             >
@@ -43,7 +43,7 @@
               <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
-              v-else-if="isPrimaryColumn('protein')"
+              v-else-if="isPrimaryColumn('protein') && isIncludesColumn('protein')"
               :class="{active: isPrimaryColumn('protein')}"
               v-on:click.prevent="switchSortType"
             >
@@ -51,7 +51,7 @@
               <SortDirectionArrow :sortType="sortType" />
             </th>
             <th
-              v-else-if="isPrimaryColumn('iron')"
+              v-else-if="isPrimaryColumn('iron') && isIncludesColumn('iron')"
               :class="{active: isPrimaryColumn('iron')}"
               v-on:click.prevent="switchSortType"
             >
@@ -61,34 +61,32 @@
             <!-- END Primary Column -->
 
             <th
-              v-if="!isPrimaryColumn('product')"
+              v-if="!isPrimaryColumn('product') && isIncludesColumn('product')"
               :class="{active: isPrimaryColumn('product')}"
               v-on:click.prevent="setPrimaryColumn('product')"
-            >
-              Product(100g serving)
-            </th>
+            >Product(100g serving)</th>
             <th
-              v-if="!isPrimaryColumn('calories')"
+              v-if="!isPrimaryColumn('calories') && isIncludesColumn('calories')"
               :class="{active: isPrimaryColumn('calories')}"
               v-on:click.prevent="setPrimaryColumn('calories')"
             >Calories</th>
             <th
-              v-if="!isPrimaryColumn('fat')"
+              v-if="!isPrimaryColumn('fat') && isIncludesColumn('fat')"
               :class="{active: isPrimaryColumn('fat')}"
               v-on:click.prevent="setPrimaryColumn('fat')"
             >Fat (g)</th>
             <th
-              v-if="!isPrimaryColumn('carbs')"
+              v-if="!isPrimaryColumn('carbs') && isIncludesColumn('carbs')"
               :class="{active: isPrimaryColumn('carbs')}"
               v-on:click.prevent="setPrimaryColumn('carbs')"
             >Carbs (g)</th>
             <th
-              v-if="!isPrimaryColumn('protein')"
+              v-if="!isPrimaryColumn('protein') && isIncludesColumn('protein')"
               :class="{active: isPrimaryColumn('protein')}"
               v-on:click.prevent="setPrimaryColumn('protein')"
             >Protein (g)</th>
             <th
-              v-if="!isPrimaryColumn('iron')"
+              v-if="!isPrimaryColumn('iron') && isIncludesColumn('iron')"
               :class="{active: isPrimaryColumn('iron')}"
               v-on:click.prevent="setPrimaryColumn('iron')"
             >Iron (%)</th>
@@ -113,20 +111,26 @@
             </td>
 
             <!-- Primary column -->
-            <td v-if="isPrimaryColumn('product')">{{product.product}}</td>
-            <td v-else-if="isPrimaryColumn('calories')">{{product.calories}}</td>
-            <td v-else-if="isPrimaryColumn('fat')">{{product.fat}}</td>
-            <td v-else-if="isPrimaryColumn('carbs')">{{product.carbs}}</td>
-            <td v-else-if="isPrimaryColumn('protein')">{{product.protein}}</td>
-            <td v-else-if="isPrimaryColumn('iron')">{{product.iron}}</td>
+            <td v-if="isPrimaryColumn('product') && isIncludesColumn('product')">{{product.product}}</td>
+            <td v-else-if="isPrimaryColumn('calories') && isIncludesColumn('calories')">{{product.calories}}</td>
+            <td v-else-if="isPrimaryColumn('fat') && isIncludesColumn('fat')">{{product.fat}}</td>
+            <td v-else-if="isPrimaryColumn('carbs') && isIncludesColumn('carbs')">{{product.carbs}}</td>
+            <td v-else-if="isPrimaryColumn('protein') && isIncludesColumn('protein')">{{product.protein}}</td>
+            <td v-else-if="isPrimaryColumn('iron') && isIncludesColumn('iron')">{{product.iron}}</td>
             <!-- END Primary Column -->
 
-            <td v-if="!isPrimaryColumn('product')">{{product.product}}</td>
-            <td v-if="!isPrimaryColumn('calories')">{{product.calories}}</td>
-            <td v-if="!isPrimaryColumn('fat')">{{product.fat}}</td>
-            <td v-if="!isPrimaryColumn('carbs')">{{product.carbs}}</td>
-            <td v-if="!isPrimaryColumn('protein')">{{product.protein}}</td>
-            <td v-if="!isPrimaryColumn('iron')">{{product.iron}}</td>
+            <td
+              v-if="!isPrimaryColumn('product') && isIncludesColumn('product')"
+            >{{product.product}}</td>
+            <td
+              v-if="!isPrimaryColumn('calories') && isIncludesColumn('calories')"
+            >{{product.calories}}</td>
+            <td v-if="!isPrimaryColumn('fat') && isIncludesColumn('fat')">{{product.fat}}</td>
+            <td v-if="!isPrimaryColumn('carbs') && isIncludesColumn('carbs')">{{product.carbs}}</td>
+            <td
+              v-if="!isPrimaryColumn('protein') && isIncludesColumn('protein')"
+            >{{product.protein}}</td>
+            <td v-if="!isPrimaryColumn('iron') && isIncludesColumn('iron')">{{product.iron}}</td>
           </tr>
         </tbody>
       </table>
@@ -136,7 +140,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import SortDirectionArrow from './SortDirectionArrow';
+import SortDirectionArrow from "./SortDirectionArrow";
 
 export default {
   name: "Table",
@@ -147,29 +151,44 @@ export default {
       "isError",
       "error",
       "primaryColumn",
+      "selectedColumns",
       "sortType"
     ])
   },
   methods: {
     ...mapActions(["fetchProducts"]),
     ...mapMutations(["setPrimaryColumn", "switchSortType"]),
+
+    // проверка на то что данный тег указан в store.product.primaryColumn
     isPrimaryColumn(value) {
       return this.primaryColumn === value;
     },
 
+    // проверка массива selectedColumns на наличие переданного тега колонки.
+    isIncludesColumn(columnName) {
+      let value = false
+      this.selectedColumns.map(item => {
+        if(item.tag === columnName){
+          console.log(item.tag, true);
+          value = true
+        }
+      });
+      return value
+    }
   },
   async mounted() {
     this.fetchProducts();
   },
   components: {
-    'SortDirectionArrow': SortDirectionArrow
-  },
+    SortDirectionArrow: SortDirectionArrow
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../scss/colors";
+@import "../scss/form-elements";
 .table-container {
   table {
     tbody {
@@ -200,39 +219,6 @@ export default {
     td {
     }
   }
-}
-
-.input-checkbox {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
-}
-
-.input-checkbox + label {
-  display: flex;
-  align-items: center;
-  vertical-align: middle;
-  user-select: none;
-}
-
-.input-checkbox + label::before {
-  content: "";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
-  flex-grow: 0;
-  border: 1px solid #adb5bd;
-  border-radius: 1px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 70% 70%;
-}
-
-.input-checkbox:checked + label::before {
-  border-color: $active;
-  background-color: $active;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.56354 2.61235L0.666992 3.41618L3.54877 5.99991L9.33366 0.803736L8.43711 -9.15527e-05L3.54877 4.39225L1.56354 2.61235Z' fill='%23fff'/%3E%3C/svg%3E%0A");
 }
 
 .align-center-wrapper {

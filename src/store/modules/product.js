@@ -15,7 +15,9 @@ export default {
         pageLimit: 10,
         isLoading: false,
         error: null,
-        primaryColumn: 'product'
+        primaryColumn: 'product',
+        allColumns: [{ id: 1, tag: 'product', name: 'Product(100g serving)' }, { id: 2, tag: 'calories', name: 'Calories' }, { id: 3, tag: 'fat', name: 'Fat (g)' }, { id: 4, tag: 'carbs', name: 'Carbs (g)' }, { id: 5, tag: 'protein', name: 'Protein (g)' }, { id: 6, tag: 'iron', name: 'Iron (%)' }],
+        selectedColumns: [{ id: 1, tag: 'product', name: 'Product(100g serving)' }, { id: 2, tag: 'calories', name: 'Calories' }, { id: 3, tag: 'fat', name: 'Fat (g)' }, { id: 4, tag: 'carbs', name: 'Carbs (g)' }, { id: 5, tag: 'protein', name: 'Protein (g)' }, { id: 6, tag: 'iron', name: 'Iron (%)' }]
     },
     getters: {
         filteredProducts: (state) => {
@@ -54,6 +56,15 @@ export default {
         primaryColumn: (state) => {
             return state.primaryColumn
         },
+        selectedColumns: (state) => {
+            return state.selectedColumns
+        },
+        allColumns: (state) => {
+            return state.allColumns
+        },
+        selectedColumnsCount: (state) => {
+            return state.selectedColumns.length
+        },
 
         pageNumber: (state) => {
             return state.pageNumber
@@ -66,11 +77,11 @@ export default {
             return state.pageLimit
         },
         pageStepFrom: (state) => {
-            return (((state.pageNumber * state.pageLimit)-state.pageLimit)+state.pageLimit)
+            return (((state.pageNumber * state.pageLimit) - state.pageLimit) + state.pageLimit)
         },
         pageStepTo: (state, getters) => {
             return getters.productsCount
-        }
+        },
 
     },
     mutations: {
@@ -104,6 +115,9 @@ export default {
         setPrimaryColumn(state, payload) {
             state.primaryColumn = payload
         },
+        updateSelectedColumns(state, payload) {
+            state.selectedColumns = payload
+        },
 
         prevPage(state) {
             state.pageNumber--
@@ -112,12 +126,12 @@ export default {
             state.pageNumber++
         },
 
-        selectPage(state, payload){
+        selectPage(state, payload) {
             state.pageNumber = payload
         },
 
-        switchPerPage(state, payload){
-            state.pageLimit = payload 
+        switchPerPage(state, payload) {
+            state.pageLimit = payload
         }
 
 
@@ -140,13 +154,17 @@ export default {
             }
         },
         nextPage(ctx) {
-            if (ctx.state.pageNumber < ctx.getters.allPages-1) {
+            if (ctx.state.pageNumber < ctx.getters.allPages - 1) {
                 ctx.commit('nextPage')
             }
         },
-        switchPerPage(ctx, payload){
+        switchPerPage(ctx, payload) {
             ctx.commit("selectPage", 0) // возвращаем к нулевой странице
             ctx.commit("switchPerPage", payload)
+        },
+
+        changeSelectedColumns(ctx, payload) {
+            ctx.commit("updateSelectedColumns", payload)
         }
     }
 }

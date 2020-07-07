@@ -1,5 +1,5 @@
 <template>
-  <div href="/" class="per-page-select__wrap">
+  <div href="/" class="select-wrap">
     <ul class="wrap__ul">
       <li class="ul__current-option">
         {{pageLimit}} Per Page
@@ -43,11 +43,7 @@ export default {
   methods: {
     ...mapActions(["switchPerPage"]),
     toggleSelect() {
-      if (this.active === true) {
-        this.active = false;
-      } else {
-        this.active = true;
-      }
+      this.active = !this.active
     },
     onSwitchPerPage(payload){
         this.switchPerPage(payload)
@@ -60,56 +56,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../scss/colors";
-.per-page-select__wrap {
-  position: relative;
-  margin-left: 12px;
-  padding: 0.5rem 1rem;
-  border: 1px solid $grey1;
-  border-radius: 2px;
-  text-decoration: none;
-  text-align: center;
-  color: $blueDark2;
-  .wrap {
-    &__ul {
-      list-style: none;
-      .ul {
-        &__current-option {
-          background: $white;
-          svg {
-            margin-left: 7px;
-            vertical-align: middle;
-            cursor: pointer;
-          }
-        }
-      }
-    }
-    &__select-ul {
-      display: none;
-      position: absolute;
-      top: -70px;
-      left: 0;
-      width: 100%;
-      list-style: none;
-      border: 1px solid $grey1;
-      border-radius: 2px;
-      transition: all 0.2s ease-in;
-      &.active {
-        display: block;
-        top: 40px;
-      }
-      .select-ul {
-        &__option {
-          padding: 0.5rem 1rem;
-          background: $white;
-          text-align: center;
-          transition: all 0.2s ease-in;
-          cursor: pointer;
-          &:hover {
-            background: $grey1;
-          }
-        }
-      }
-    }
-  }
-}
+@import "../scss/form-elements";
 </style>
