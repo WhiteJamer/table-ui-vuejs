@@ -1,24 +1,20 @@
-# table-vue-app
+# Table UI - Test-case
+## О проекте
+Это тестовое задание по VueJS, цель которого создать **UI** для таблицы.
 
-## Project setup
+#### Техническое задание
+В данный момент не согласована публикация тз.
+
+## Установка
+Находясь в корне проекта введите команду:
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Запуск
+Для запуска локально с функцией **hot-reload** введите команду:
+
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
