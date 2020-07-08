@@ -1,4 +1,4 @@
-import { getProducts } from '../../api/request'
+import { getProducts, deleteProducts } from '../../api/request'
 import _ from 'lodash';
 
 const paginate = (data, pageNumber, pageLimit) => {
@@ -23,12 +23,12 @@ export default {
     getters: {
         filteredProducts: (state) => {
             switch (state.sortBy) {
-                case "product": return _.orderBy(state.products, ['product'], [state.sortType])
-                case "calories": return _.orderBy(state.products, ['calories'], [state.sortType])
-                case "fat": return _.orderBy(state.products, ['fat'], [state.sortType])
-                case "carbs": return _.orderBy(state.products, ['carbs'], [state.sortType])
-                case "protein": return _.orderBy(state.products, ['protein'], [state.sortType])
-                case "iron": return _.orderBy(state.products, ['iron'], [state.sortType])
+                case "product": return paginate(_.orderBy(state.products, ['product'], [state.sortType]), state.pageNumber, state.pageLimit)
+                case "calories": return paginate(_.orderBy(state.products, ['calories'], [state.sortType]), state.pageNumber, state.pageLimit)
+                case "fat": return paginate(_.orderBy(state.products, ['fat'], [state.sortType]), state.pageNumber, state.pageLimit)
+                case "carbs": return paginate(_.orderBy(state.products, ['carbs'], [state.sortType]), state.pageNumber, state.pageLimit)
+                case "protein": return paginate(_.orderBy(state.products, ['protein'], [state.sortType]), state.pageNumber, state.pageLimit)
+                case "iron": return paginate(_.orderBy(state.products, ['iron'], [state.sortType]), state.pageNumber, state.pageLimit)
                 default: return paginate(state.products, state.pageNumber, state.pageLimit)
             }
         },
@@ -95,6 +95,7 @@ export default {
             return state.selectedIds.length
         }
 
+
     },
     mutations: {
         updateProducts(state, payload) {
@@ -146,8 +147,11 @@ export default {
             state.pageLimit = payload
         },
 
-        updateSelectedIds(state, payload){
+        updateSelectedIds(state, payload) {
             state.selectedIds = payload
+        },
+        deleteByID: (state, payload) => {
+            state.products = state.products.filter(item => item.id !== payload)
         }
 
 
@@ -183,8 +187,14 @@ export default {
             ctx.commit("updateSelectedColumns", payload)
         },
 
-        changeSelectedIds(ctx, payload){
+        changeSelectedIds(ctx, payload) {
             ctx.commit("updateSelectedIds", payload)
+        },
+        async deleteSelectedProducts(ctx) {
+            await ctx.commit("setLoading", true)
+            await deleteProducts().then(() => ctx.state.selectedIds.map(id => ctx.commit("deleteByID", id))).catch((err) => alert(`При удалении произошла ошибка: ${err.error}`))
+            ctx.commit("setLoading", false)
+
         }
     }
 }

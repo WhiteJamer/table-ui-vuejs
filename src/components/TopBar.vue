@@ -42,6 +42,7 @@
     <div class="other">
       <div class="options">
         <a
+          v-on:click.prevent="handleDeleteButton()"
           href="/"
           class="delete-count"
           :class="{active: selectedIdsCount > 0}"
@@ -55,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Paginator from "./Paginator";
 import PerPageSelect from "./PerPageSelect";
 import DisplayedColumnsSelect from "./DisplayedColumnsSelect";
@@ -64,8 +65,14 @@ export default {
   computed: { ...mapGetters(["sortBy", "selectedIdsCount"]) },
   methods: {
     ...mapMutations(["setSortBy"]),
+    ...mapActions(["deleteSelectedProducts"]),
     isSortBy(value) {
       return this.sortBy === value;
+    },
+    handleDeleteButton(){
+      if(confirm(`Вы действительно хотите удалить выбранные ${this.selectedIdsCount} продуктов?`)){
+        this.deleteSelectedProducts()
+      }
     }
   },
   components: {
