@@ -195,6 +195,11 @@ export default {
             await deleteProducts().then(() => ctx.state.selectedIds.map(id => ctx.commit("deleteByID", id))).catch((err) => alert(`При удалении произошла ошибка: ${err.error}`))
             ctx.commit("setLoading", false)
 
+        },
+        async deleteByID(ctx, payload) {
+            await ctx.commit("setLoading", true)
+            await deleteProducts().then(() => ctx.commit("deleteByID", payload)).catch((err) => alert(`При удалении произошла ошибка: ${err.error}`))
+            ctx.commit("setLoading", false)
         }
     }
 }
