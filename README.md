@@ -18,3 +18,5 @@ npm install
 ```
 npm run serve
 ```
+
+![table-ui-screen.png](https://ltdfoto.ru/images/2020/07/09/table-ui-screen.png)
